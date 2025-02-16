@@ -10,10 +10,50 @@ from urllib.request import urlopen
 import json
 
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(
+    __name__, 
+    external_stylesheets=[dbc.themes.BOOTSTRAP],
+    meta_tags=[
+        {
+            'name': 'description',
+            'content': 'Türkiye İstatistik Kurumu (TÜİK) konut satış istatistiklerini interaktif olarak gösteren dashboard uygulaması. İl ve ilçe bazında konut satış verileri görselleştirilmektedir.'
+        },
+        {
+            'name': 'keywords',
+            'content': 'TÜİK, konut satışları, Türkiye konut istatistikleri, il bazlı konut satışları, ilçe bazlı konut satışları, interaktif dashboard, konut piyasası'
+        },
+        {
+            'name': 'author',
+            'content': 'Avşar ÇÖTELİ'
+        },
+        {
+            # Responsive design için
+            'name': 'viewport',
+            'content': 'width=device-width, initial-scale=1.0'
+        },
+        # Open Graph etiketleri (sosyal medya paylaşımları için)
+        {
+            'property': 'og:title',
+            'content': 'Türkiye Konut Satışları Dashboard'
+        },
+        {
+            'property': 'og:description',
+            'content': 'TÜİK konut satış istatistiklerini interaktif olarak gösteren dashboard uygulaması'
+        },
+        {
+            'property': 'og:type',
+            'content': 'website'
+        },
+        {
+            'property': 'og:url',
+            'content': 'https://coteli.pythonanywhere.com/'  # Uygulamanızın URL'sini ekleyin
+        },
+        
+    ]
+)
 #server = app.server
 
-app.title = "Türkiye Konut Satışları"
+app.title = "Türkiye Konut Satışları Dashboard"
 
 # dataFramelerin düzenlenmesi
 df = pd.read_csv("https://raw.githubusercontent.com/coteli/intereactive-dash/main/ilceler.csv")
@@ -23,7 +63,7 @@ df_tum_il = df.groupby("il").sum().reset_index()
 app.layout = dbc.Container(html.Div(children=[
     # Başlık ve GitHub linki için flex container - justify-content: space-between ekledik
     html.Div([
-        html.H1('Türkiye Konut Satışları', className="mt-5 mb-0"),
+        html.H1('Türkiye Konut Satış Sayıları', className="mt-5 mb-0"),
         html.A(
             html.Img(
                 src="https://raw.githubusercontent.com/gilbarbara/logos/main/logos/github-icon.svg",
